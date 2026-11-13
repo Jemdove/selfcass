@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fff0e8" />
+  <title>A Little Morning Sunshine ☀️</title>
+  <style>
+    :root {
+      --ink: #553b56;
+      --pink: #ef91ad;
+      --coral: #ffad91;
+      --cream: #fff8f0;
+      --gold: #ffd477;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      background: linear-gradient(160deg, #f9dce8 0%, #fff0df 46%, #d9edfa 100%);
+    }
+
+    .sky-glow {
+      position: fixed;
+      width: min(78vw, 680px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 221, 150, .72), rgba(255, 221, 150, 0) 68%);
+      top: -34%;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: glow 7s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .sun {
+      position: fixed;
+      top: 7vh;
+      right: 12vw;
+      width: clamp(76px, 12vw, 125px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff9cf, #ffd36d 68%, #ffb56e);
+      box-shadow: 0 0 35px 12px rgba(255, 211, 109, .35), 0 0 100px 35px rgba(255, 211, 109, .2);
+      animation: sun-rise 2.2s cubic-bezier(.2,.8,.2,1) both, sun-breathe 5s 2.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .cloud {
+      position: fixed;
+      width: 145px;
+      height: 42px;
+      border-radius: 50px;
+      background: rgba(255,255,255,.53);
+      filter: blur(.2px);
+      animation: drift 26s linear infinite;
+      pointer-events: none;
+    }
+    .cloud::before, .cloud::after {
+      content: "";
+      position: absolute;
+      bottom: 12px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .cloud::before { width: 65px; height: 65px; left: 20px; }
+    .cloud::after { width: 48px; height: 48px; left: 69px; }
+    .cloud.one { top: 19%; left: -180px; animation-duration: 34s; }
+    .cloud.two { top: 31%; left: -180px; transform: scale(.68); animation-delay: -15s; animation-duration: 39s; opacity: .65; }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 620px);
+      padding: clamp(30px, 6vw, 58px) clamp(22px, 6vw, 58px) 35px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,.78);
+      border-radius: 32px;
+      background: rgba(255, 250, 247, .72);
+      box-shadow: 0 22px 70px rgba(119, 82, 105, .15), inset 0 1px 0 rgba(255,255,255,.8);
+      backdrop-filter: blur(14px);
+      animation: card-arrive 1.2s .15s both cubic-bezier(.2,.8,.2,1);
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      font-family: Arial, sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: #b47b91;
+      animation: fade-up .8s .6s both;
+    }
+
+    h1 {
+      margin: 0;
+      color: #784b69;
+      font-size: clamp(2.55rem, 8vw, 4.6rem);
+      line-height: 1.02;
+      font-weight: 500;
+      letter-spacing: -.045em;
+      animation: fade-up 1s .75s both;
+    }
+
+    .name-wrap {
+      min-height: 1.25em;
+      margin: 8px 0 18px;
+      color: #e17e9f;
+      font-size: clamp(2rem, 7vw, 3.65rem);
+      font-style: italic;
+      font-weight: 600;
+    }
+    #sweet-name {
+      display: inline-block;
+      animation: name-glow 3.4s ease-in-out infinite;
+      text-shadow: 0 5px 20px rgba(225,126,159,.18);
+    }
+    #sweet-name.swap { animation: name-swap .65s ease both; }
+
+    .message {
+      max-width: 440px;
+      margin: 0 auto;
+      font-size: clamp(1rem, 2.6vw, 1.18rem);
+      line-height: 1.85;
+      color: #745d70;
+      animation: fade-up 1s 1s both;
+    }
+    .message strong { color: #c96f91; font-weight: 600; }
+
+    .little-note {
+      margin: 21px 0 25px;
+      color: #b27c91;
+      font-size: .98rem;
+      font-style: italic;
+      animation: fade-up 1s 1.15s both;
+    }
+
+    .music-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 22px;
+      border: 0;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(110deg, #e58cab, #f2a98f);
+      box-shadow: 0 9px 22px rgba(218, 128, 157, .25);
+      font: 600 .9rem Arial, sans-serif;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+      animation: fade-up 1s 1.3s both;
+    }
+    .music-button:hover { transform: translateY(-3px); box-shadow: 0 13px 26px rgba(218,128,157,.32); }
+    .music-button:active { transform: translateY(0) scale(.98); }
+    .music-button:focus-visible { outline: 3px solid #98627f; outline-offset: 4px; }
+    .music-icon { font-size: 1.1rem; }
+
+    .signature {
+      margin: 25px 0 0;
+      color: #ae8b9b;
+      font: .72rem Arial, sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      animation: fade-up 1s 1.45s both;
+    }
+
+    .heart {
+      position: fixed;
+      z-index: 1;
+      bottom: -35px;
+      color: rgba(224, 126, 159, .7);
+      font-size: 18px;
+      pointer-events: none;
+      animation: float-up linear forwards;
+    }
+    .sparkle {
+      position: fixed;
+      z-index: 1;
+      color: rgba(255,255,255,.95);
+      text-shadow: 0 0 12px rgba(255,255,255,.9);
+      pointer-events: none;
+      animation: twinkle 2.8s ease-in-out infinite;
+    }
+
+    @keyframes glow { from { opacity: .65; transform: translateX(-50%) scale(.92); } to { opacity: 1; transform: translateX(-50%) scale(1.08); } }
+    @keyframes sun-rise { from { transform: translateY(90px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes sun-breathe { 0%,100% { box-shadow: 0 0 35px 12px rgba(255,211,109,.35), 0 0 100px 35px rgba(255,211,109,.2); } 50% { box-shadow: 0 0 48px 18px rgba(255,211,109,.45), 0 0 120px 45px rgba(255,211,109,.24); } }
+    @keyframes drift { from { translate: 0 0; } to { translate: calc(100vw + 240px) 0; } }
+    @keyframes card-arrive { from { opacity: 0; transform: translateY(28px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes name-glow { 0%,100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+    @keyframes name-swap { from { opacity: 0; transform: translateY(9px) scale(.94); filter: blur(4px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+    @keyframes float-up { 0% { transform: translateY(0) rotate(0deg) scale(.7); opacity: 0; } 12% { opacity: .85; } 100% { transform: translateY(-110vh) rotate(28deg) scale(1.25); opacity: 0; } }
+    @keyframes twinkle { 0%,100% { opacity: .25; transform: scale(.7) rotate(0); } 50% { opacity: 1; transform: scale(1.25) rotate(35deg); } }
+
+    @media (max-width: 480px) {
+      body { padding: 16px; }
+      .sun { top: 5vh; right: 5vw; }
+      .card { border-radius: 26px; }
+      .message { line-height: 1.7; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sky-glow" aria-hidden="true"></div>
+  <div class="sun" aria-hidden="true"></div>
+  <div class="cloud one" aria-hidden="true"></div>
+  <div class="cloud two" aria-hidden="true"></div>
+
+  <main class="card">
+    <p class="eyebrow">A little sunshine, just for you</p>
+    <h1>Good morning,</h1>
+    <div class="name-wrap"><span id="sweet-name">Baby Girl</span> ☀️</div>
+
+    <p class="message">
+      May your morning be as beautiful as your smile, your heart as light as the clouds,
+      and your day filled with little reasons to <strong>laugh, shine, and feel loved.</strong>
+      Whatever today brings, I hope it brings you more joy than you expected.
+    </p>
+
+    <p class="little-note">Go sparkle, beautiful. The world gets a little brighter with you in it. ♡</p>
+
+    <button class="music-button" id="music-toggle" type="button" aria-pressed="false">
+      <span class="music-icon" id="music-icon">♫</span>
+      <span id="music-label">Play your little morning tune</span>
+    </button>
+
+    <!-- Put your own song in the audio folder; change the filename if necessary. -->
+    <audio id="morning-audio" preload="metadata">
+      <source src="audio/Love Me Now - John Legend.mp3" type="audio/mpeg">
+      Your browser does not support audio playback.
+    </audio>
+    <p class="signature">Have a lovely day · with a little extra sunshine</p>
+  </main>
+
+  <script>
+    // Let the pet name alternate gently between the two names.
+    const names = ["Baby Girl", "Cassy"];
+    const nameElement = document.getElementById("sweet-name");
+    let nameIndex = 0;
+    setInterval(() => {
+      nameIndex = (nameIndex + 1) % names.length;
+      nameElement.classList.remove("swap");
+      void nameElement.offsetWidth; // restart the transition animation
+      nameElement.textContent = names[nameIndex];
+      nameElement.classList.add("swap");
+    }, 3400);
+
+    // Floating hearts and tiny sparkles add a soft animated touch.
+    const symbols = ["♡", "✧", "♥", "✦"];
+    function addFloaty() {
+      const item = document.createElement("span");
+      item.className = Math.random() > 0.42 ? "heart" : "sparkle";
+      item.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      item.style.left = `${Math.random() * 100}vw`;
+      if (item.classList.contains("heart")) {
+        item.style.animationDuration = `${7 + Math.random() * 6}s`;
+        item.style.fontSize = `${13 + Math.random() * 15}px`;
+      } else {
+        item.style.top = `${12 + Math.random() * 72}vh`;
+        item.style.fontSize = `${10 + Math.random() * 13}px`;
+        item.style.animationDelay = `${Math.random() * 2}s`;
+      }
+      document.body.appendChild(item);
+      setTimeout(() => item.remove(), item.classList.contains("heart") ? 14000 : 3000);
+    }
+    for (let i = 0; i < 13; i++) setTimeout(addFloaty, i * 260);
+    setInterval(addFloaty, 650);
+
+    // Play or pause only the song stored in the audio folder.
+    // No built-in melody or automatic tune is generated.
+    const musicButton = document.getElementById("music-toggle");
+    const musicLabel = document.getElementById("music-label");
+    const musicIcon = document.getElementById("music-icon");
+    const morningAudio = document.getElementById("morning-audio");
+
+    musicButton.addEventListener("click", async () => {
+      if (morningAudio.paused) {
+        try {
+          await morningAudio.play();
+          musicButton.setAttribute("aria-pressed", "true");
+          musicLabel.textContent = "Pause the morning tune";
+          musicIcon.textContent = "♫♪";
+        } catch (error) {
+          musicLabel.textContent = "Add your song to the audio folder";
+          console.error("Could not play the selected song:", error);
+        }
+      } else {
+        morningAudio.pause();
+      }
+    });
+
+    morningAudio.addEventListener("pause", () => {
+      musicButton.setAttribute("aria-pressed", "false");
+      musicLabel.textContent = "Play your little morning tune";
+      musicIcon.textContent = "♫";
+    });
+
+    morningAudio.addEventListener("ended", () => {
+      musicButton.setAttribute("aria-pressed", "false");
+      musicLabel.textContent = "Play your little morning tune";
+      musicIcon.textContent = "♫";
+    });
+
+    morningAudio.addEventListener("error", () => {
+      musicLabel.textContent = "Check the song file in the audio folder";
+    });
+  </script>
+</body>
+</html>
